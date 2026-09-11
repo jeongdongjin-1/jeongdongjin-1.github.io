@@ -1,6 +1,6 @@
 광역어그로꾼 PICK — 배포 방법 (파일 2개: index.html, og.jpg)
 
-[A] GitHub Pages (무료, 주소 예: https://<아이디>.github.io/gwangyeok-pick/)
+[A] GitHub Pages (무료, 주소 예: https://<아이디>.github.io/)
  1. github.com 로그인 → New repository → 이름 gwangyeok-pick, Public → Create
  2. "uploading an existing file" 클릭 → 이 폴더의 index.html, og.jpg 두 개를 끌어다 놓고 Commit
  3. Settings → Pages → Branch: main / (root) → Save → 1~2분 뒤 위 주소로 열림
