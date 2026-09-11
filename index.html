@@ -321,10 +321,25 @@ tabs.innerHTML = GROUPS.map(g => {
 tabs.addEventListener('click', e => { const t = e.target.closest('.tab'); if (t) render(t.dataset.g); });
 
 
+// 유입 채널: 주소 끝의 ?src= 값을 기억한다 (yt=광역어그로꾼, yti=이슈어그로꾼, blog=네이버 블로그, clip=네이버 클립)
+var PICK_SRC = '';
+try {
+  var q = new URLSearchParams(location.search).get('src');
+  if (q) { PICK_SRC = q.slice(0, 20); sessionStorage.setItem('pick_src', PICK_SRC); }
+  else { PICK_SRC = sessionStorage.getItem('pick_src') || ''; }
+} catch (e) {}
+if (PICK_SRC && typeof gtag === 'function') gtag('set', { traffic_source: PICK_SRC });
+
 // 클릭 측정: GA_ID가 있을 때만 gtag 이벤트 전송(없으면 아무 것도 안 함)
 document.addEventListener('click', e => {
   const a = e.target.closest('a[data-track]'); if (!a || typeof gtag !== 'function') return;
-  gtag('event', 'select_item', { item_list_name: a.dataset.track, item_id: String(a.dataset.pid), item_name: a.closest('.card')?.querySelector('.name')?.textContent || '' });
+  const card = a.closest('.card') || a.closest('.hero-slide');
+  gtag('event', 'select_item', {
+    item_list_name: a.dataset.track,
+    item_id: String(a.dataset.pid),
+    item_name: card?.querySelector('.name, .hero-name')?.textContent || '',
+    traffic_source: PICK_SRC || '(none)'
+  });
 });
 
 // 히어로 캐러셀 — 일정 시간마다 자동으로 넘어가고, 아래 그리드는 그대로 둔다
