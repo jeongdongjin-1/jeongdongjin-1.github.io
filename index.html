@@ -79,6 +79,53 @@ button{font:inherit;color:inherit;background:none;border:0;padding:0;cursor:poin
 .pick{display:inline-flex;align-items:center;gap:8px;background:var(--paper);border:1px solid var(--line);border-radius:999px;padding:7px 12px 7px 8px;font-size:13px;font-weight:500}
 .pick i{font-style:normal;display:inline-grid;place-items:center;width:20px;height:20px;border-radius:50%;background:var(--ink);color:var(--paper);font-size:11px;font-weight:700;font-variant-numeric:tabular-nums}
 
+
+/* 히어로 캐러셀 */
+.hero{margin-top:16px}
+.hero-head{margin:0 0 14px}
+.hero-head h1{margin:8px 0 0;font-family:var(--display);font-weight:900;font-size:clamp(24px,4.4vw,38px);line-height:1.12;letter-spacing:-.035em;text-wrap:balance;word-break:keep-all}
+.hero-head h1 em{font-style:normal;color:var(--accent)}
+.hero-viewport{position:relative;border-radius:8px;overflow:hidden;background:var(--mist);touch-action:pan-y}
+.hero-track{display:flex;will-change:transform;transition:transform .62s cubic-bezier(.22,.61,.36,1)}
+.hero-track.nofx{transition:none}
+.hero-slide{flex:0 0 100%;min-width:0;display:grid;grid-template-rows:auto auto}
+@media(min-width:760px){.hero-slide{grid-template-rows:none;grid-template-columns:1.25fr 1fr;align-items:stretch}}
+.hero-media{display:block;position:relative;aspect-ratio:16/10;background:var(--mist);overflow:hidden}
+@media(min-width:760px){.hero-media{aspect-ratio:auto;min-height:340px}}
+.hero-media img{width:100%;height:100%;object-fit:cover;display:block}
+.hero-media[data-g="식탁"]{background:var(--tint-food)}
+.hero-media[data-g="건강"]{background:var(--tint-health)}
+.hero-media[data-g="여행"]{background:var(--tint-travel)}
+.hero-media[data-g="디지털"]{background:var(--tint-digital)}
+.hero-copy{display:flex;flex-direction:column;justify-content:center;gap:7px;padding:20px 20px 22px;background:var(--paper);min-width:0}
+@media(min-width:760px){.hero-copy{padding:28px 30px}}
+.hero-rank{display:inline-flex;align-items:center;gap:7px;font-size:11px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--ash)}
+.hero-rank i{font-style:normal;display:inline-grid;place-items:center;min-width:20px;height:20px;padding:0 6px;border-radius:999px;background:var(--accent);color:var(--accent-ink);font-size:11px;font-weight:700;letter-spacing:0;font-variant-numeric:tabular-nums}
+.hero-rank i.plain{background:var(--ink);color:var(--paper)}
+.hero-name{font-family:var(--display);font-weight:900;font-size:clamp(19px,2.7vw,26px);line-height:1.2;letter-spacing:-.03em;word-break:keep-all;text-wrap:balance}
+.hero-proof{color:var(--ink-2);font-size:14px;word-break:keep-all}
+.hero-spec{color:var(--ash);font-size:12.5px;word-break:keep-all}
+.hero-cta{margin-top:8px;align-self:flex-start;display:inline-flex;align-items:center;gap:10px;border:1.5px solid var(--ink);border-radius:3px;padding:10px 16px;font-weight:700;font-size:13.5px;transition:background .15s,color .15s}
+.hero-cta:hover{background:var(--ink);color:var(--paper)}
+.hero-nav{position:absolute;top:50%;transform:translateY(-50%);z-index:3;width:38px;height:38px;border-radius:50%;background:rgba(255,255,255,.92);color:#111;display:grid;place-items:center;font-size:22px;line-height:1;box-shadow:0 2px 10px rgba(0,0,0,.16);opacity:0;transition:opacity .2s}
+.hero-viewport:hover .hero-nav,.hero-nav:focus-visible{opacity:1}
+.hero-nav.prev{left:10px}
+.hero-nav.next{right:10px}
+@media(max-width:759px){.hero-nav{display:none}}
+.hero-bar{position:absolute;left:0;right:0;bottom:0;height:3px;background:rgba(17,17,17,.12);z-index:3}
+@media(min-width:760px){.hero-bar{left:auto;width:calc(100% / 2.25)}}
+.hero-bar i{display:block;height:100%;width:0;background:var(--accent)}
+.hero-bar i.run{animation:heroFill linear forwards}
+@keyframes heroFill{from{width:0}to{width:100%}}
+.hero-foot{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:10px}
+.hero-dots{display:flex;flex-wrap:wrap;gap:6px}
+.hero-dots button{width:22px;height:4px;border-radius:2px;background:var(--line);transition:background .2s,width .2s}
+.hero-dots button[aria-selected="true"]{background:var(--ink);width:34px}
+.hero-count{font-size:12px;color:var(--ash);font-variant-numeric:tabular-nums;white-space:nowrap}
+.hero-count b{color:var(--ink);font-weight:700}
+.hero-play{font-size:12px;color:var(--ash);font-weight:700;padding:2px 8px;border:1px solid var(--line);border-radius:999px}
+@media (prefers-reduced-motion: reduce){.hero-track{transition:none}.hero-bar i.run{animation:none;width:100%}}
+
 /* 섹션 헤더 */
 .sec{display:flex;align-items:baseline;justify-content:space-between;margin:28px 0 12px;gap:12px}
 .sec h2{margin:0;font-family:var(--display);font-weight:900;font-size:20px;letter-spacing:-.03em}
@@ -150,13 +197,24 @@ footer .fine{font-size:11px}
 </nav>
 
 <main class="wrap">
-  <section class="banner" aria-labelledby="bannerTitle">
-    <div>
+  <section class="hero" aria-label="오늘의 추천 상품">
+    <div class="hero-head">
       <div class="eyebrow">Today's pick · 영상에서 소개한 그 상품</div>
-      <h1 id="bannerTitle">부모님 선물, <em>고르다 지치기 전에</em><br>여기서 끝내세요</h1>
-      <p>광역어그로꾼·이슈어그로꾼 영상과 블로그에서 소개한 추석 선물 9종을 한 곳에 모았어요. 먹거리·건강·여행·디지털 네 가지로 나눠 두었으니 받는 분을 떠올리며 골라 보세요.</p>
+      <h1 id="bannerTitle">부모님 선물, <em>고르다 지치기 전에</em> 여기서 끝내세요</h1>
     </div>
-    <div class="picks" id="picks" aria-label="오늘의 추천 3"></div>
+    <div class="hero-viewport" id="heroViewport">
+      <div class="hero-track" id="heroTrack"></div>
+      <button class="hero-nav prev" id="heroPrev" type="button" aria-label="이전 상품">‹</button>
+      <button class="hero-nav next" id="heroNext" type="button" aria-label="다음 상품">›</button>
+      <div class="hero-bar"><i id="heroBar"></i></div>
+    </div>
+    <div class="hero-foot">
+      <div class="hero-dots" id="heroDots" role="tablist" aria-label="상품 슬라이드"></div>
+      <div style="display:flex;align-items:center;gap:10px">
+        <span class="hero-count" id="heroCount"></span>
+        <button class="hero-play" id="heroPlay" type="button" aria-pressed="false">일시정지</button>
+      </div>
+    </div>
   </section>
 
   <div class="sec">
@@ -236,17 +294,137 @@ tabs.innerHTML = GROUPS.map(g => {
 }).join('');
 tabs.addEventListener('click', e => { const t = e.target.closest('.tab'); if (t) render(t.dataset.g); });
 
-// 오늘의 추천
-document.getElementById('picks').innerHTML = PICK_IDS.map((id, i) => {
-  const p = PRODUCTS.find(x => x.id === id);
-  return `<a class="pick" href="${esc(p.link)}" target="_blank" rel="noopener sponsored"><i>${i+1}</i>${esc(p.short)}</a>`;
-}).join('');
 
 // 클릭 측정: GA_ID가 있을 때만 gtag 이벤트 전송(없으면 아무 것도 안 함)
 document.addEventListener('click', e => {
   const a = e.target.closest('a[data-track]'); if (!a || typeof gtag !== 'function') return;
   gtag('event', 'select_item', { item_list_name: a.dataset.track, item_id: String(a.dataset.pid), item_name: a.closest('.card')?.querySelector('.name')?.textContent || '' });
 });
+
+// 히어로 캐러셀 — 일정 시간마다 자동으로 넘어가고, 아래 그리드는 그대로 둔다
+(function(){
+  var track = document.getElementById('heroTrack');
+  if (!track) return;
+  var viewport = document.getElementById('heroViewport');
+  var dotsBox  = document.getElementById('heroDots');
+  var countEl  = document.getElementById('heroCount');
+  var barEl    = document.getElementById('heroBar');
+  var playBtn  = document.getElementById('heroPlay');
+  var DURATION = 5000;
+
+  var order = PICK_IDS.concat(PRODUCTS.filter(function(p){ return PICK_IDS.indexOf(p.id) < 0; }).map(function(p){ return p.id; }));
+  var slides = order.map(function(id){ return PRODUCTS.find(function(x){ return x.id === id; }); }).filter(Boolean);
+  if (!slides.length) return;
+
+  track.innerHTML = slides.map(function(p, i){
+    var pick = PICK_IDS.indexOf(p.id);
+    var rank = pick >= 0
+      ? '<i>PICK ' + (pick + 1) + '</i>'
+      : '<i class="plain">' + esc(p.group) + '</i>';
+    var media = p.img
+      ? '<img src="' + p.img + '" alt="" loading="' + (i < 2 ? 'eager' : 'lazy') + '">'
+      : '';
+    return '<div class="hero-slide" role="group" aria-roledescription="슬라이드" aria-label="' + (i+1) + ' / ' + slides.length + '">'
+      + '<a class="hero-media" data-g="' + esc(p.group) + '" href="' + esc(p.link) + '" target="_blank" rel="noopener sponsored" data-track="hero" data-pid="' + p.id + '" tabindex="-1" aria-hidden="true">' + media + '</a>'
+      + '<div class="hero-copy">'
+      +   '<span class="hero-rank">' + rank + esc(p.tag) + '</span>'
+      +   '<strong class="hero-name">' + esc(p.name) + '</strong>'
+      +   '<span class="hero-proof">' + esc(p.proof) + '</span>'
+      +   (p.spec ? '<span class="hero-spec">' + esc(p.spec) + '</span>' : '')
+      +   '<a class="hero-cta" href="' + esc(p.link) + '" target="_blank" rel="noopener sponsored" data-track="hero" data-pid="' + p.id + '">바로 보기 <span>↗</span></a>'
+      + '</div></div>';
+  }).join('');
+
+  dotsBox.innerHTML = slides.map(function(p, i){
+    return '<button type="button" role="tab" aria-selected="' + (i === 0) + '" aria-label="' + esc(p.short) + '" data-i="' + i + '"></button>';
+  }).join('');
+  var dots = Array.prototype.slice.call(dotsBox.children);
+
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var idx = 0, timer = null, paused = false, userPaused = false;
+
+  function paint(){
+    track.style.transform = 'translateX(' + (-idx * 100) + '%)';
+    Array.prototype.forEach.call(track.children, function(el, i){
+      var on = i === idx;
+      el.setAttribute('aria-hidden', on ? 'false' : 'true');
+      Array.prototype.forEach.call(el.querySelectorAll('a'), function(a){
+        if (a.classList.contains('hero-media')) return;
+        if (on) a.removeAttribute('tabindex'); else a.setAttribute('tabindex', '-1');
+      });
+    });
+    dots.forEach(function(d, i){ d.setAttribute('aria-selected', String(i === idx)); });
+    countEl.innerHTML = '<b>' + (idx + 1) + '</b> / ' + slides.length;
+  }
+
+  function restartBar(){
+    if (reduce) return;
+    barEl.classList.remove('run');
+    void barEl.offsetWidth;
+    barEl.style.animationDuration = DURATION + 'ms';
+    barEl.style.animationPlayState = (paused || userPaused) ? 'paused' : 'running';
+    barEl.classList.add('run');
+  }
+
+  function goTo(i, manual){
+    idx = (i + slides.length) % slides.length;
+    paint();
+    if (manual) schedule();
+    else restartBar();
+  }
+
+  function schedule(){
+    clearTimeout(timer);
+    restartBar();
+    if (paused || userPaused) return;
+    timer = setTimeout(function(){ goTo(idx + 1); schedule(); }, DURATION);
+  }
+
+  function setPaused(v){
+    paused = v;
+    if (!reduce) barEl.style.animationPlayState = (paused || userPaused) ? 'paused' : 'running';
+    if (paused) clearTimeout(timer); else schedule();
+  }
+
+  dotsBox.addEventListener('click', function(e){
+    var b = e.target.closest('button[data-i]');
+    if (b) goTo(parseInt(b.dataset.i, 10), true);
+  });
+  document.getElementById('heroPrev').addEventListener('click', function(){ goTo(idx - 1, true); });
+  document.getElementById('heroNext').addEventListener('click', function(){ goTo(idx + 1, true); });
+
+  playBtn.addEventListener('click', function(){
+    userPaused = !userPaused;
+    playBtn.textContent = userPaused ? '재생' : '일시정지';
+    playBtn.setAttribute('aria-pressed', String(userPaused));
+    if (userPaused) { clearTimeout(timer); if (!reduce) barEl.style.animationPlayState = 'paused'; }
+    else schedule();
+  });
+
+  viewport.addEventListener('mouseenter', function(){ setPaused(true); });
+  viewport.addEventListener('mouseleave', function(){ setPaused(false); });
+  viewport.addEventListener('focusin',   function(){ setPaused(true); });
+  viewport.addEventListener('focusout',  function(){ setPaused(false); });
+  document.addEventListener('visibilitychange', function(){ setPaused(document.hidden); });
+
+  // 모바일 스와이프
+  var x0 = null, y0 = null, dx = 0;
+  viewport.addEventListener('touchstart', function(e){
+    x0 = e.touches[0].clientX; y0 = e.touches[0].clientY; dx = 0; setPaused(true);
+  }, {passive:true});
+  viewport.addEventListener('touchmove', function(e){
+    if (x0 === null) return;
+    dx = e.touches[0].clientX - x0;
+  }, {passive:true});
+  viewport.addEventListener('touchend', function(){
+    if (x0 !== null && Math.abs(dx) > 45) goTo(idx + (dx < 0 ? 1 : -1), true);
+    x0 = null; setPaused(false);
+  });
+
+  paint();
+  if (reduce) { barEl.classList.add('run'); } else { schedule(); }
+})();
+
 const initial = decodeURIComponent(location.hash.slice(1));
 render(GROUPS.includes(initial) ? initial : '전체');
 </script>
