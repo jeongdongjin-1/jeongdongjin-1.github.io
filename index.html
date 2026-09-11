@@ -161,7 +161,7 @@ footer .fine{font-size:11px}
 
   <div class="sec">
     <h2 id="secTitle">추석 선물 <span id="count">9</span></h2>
-    <div class="sort">영상 소개 순</div>
+    <div class="sort">PICK 먼저 · 영상 소개 순</div>
   </div>
   <section class="grid" id="grid" aria-live="polite"></section>
 
@@ -217,7 +217,10 @@ function cardHTML(p, idx){
 }
 
 function render(group){
-  const list = group === '전체' ? PRODUCTS : PRODUCTS.filter(p => p.group === group);
+  const base = group === '전체' ? PRODUCTS : PRODUCTS.filter(p => p.group === group);
+  // PICK 1·2·3을 항상 맨 앞으로 (나머지는 원래 순서 유지)
+  const rank = id => { const i = PICK_IDS.indexOf(id); return i < 0 ? 99 : i; };
+  const list = base.slice().sort((a, b) => rank(a.id) - rank(b.id));
   document.getElementById('grid').innerHTML = list.length ? list.map(cardHTML).join('') : '<div class="empty">해당 상품군이 아직 없어요.</div>';
   document.getElementById('count').textContent = list.length;
   document.getElementById('secTitle').firstChild.textContent = (group === '전체' ? '추석 선물 ' : group + ' 선물 ');
