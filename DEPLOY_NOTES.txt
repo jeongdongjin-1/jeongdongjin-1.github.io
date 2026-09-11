@@ -1,0 +1,16 @@
+광역어그로꾼 PICK — 배포 방법 (파일 2개: index.html, og.jpg)
+
+[A] GitHub Pages (무료, 주소 예: https://<아이디>.github.io/gwangyeok-pick/)
+ 1. github.com 로그인 → New repository → 이름 gwangyeok-pick, Public → Create
+ 2. "uploading an existing file" 클릭 → 이 폴더의 index.html, og.jpg 두 개를 끌어다 놓고 Commit
+ 3. Settings → Pages → Branch: main / (root) → Save → 1~2분 뒤 위 주소로 열림
+ 4. 주소가 나오면 알려주세요 → build_site.py의 SITE_URL에 넣고 다시 빌드·업로드하면 카톡 미리보기(OG)가 정상 표시됩니다
+
+[B] Netlify Drop (무료, 계정 필요, 주소 예: https://<임의이름>.netlify.app)
+ 1. app.netlify.com/drop 접속 → 이 deploy 폴더 전체를 끌어다 놓기
+ 2. 나온 주소를 Site settings에서 원하는 이름으로 변경 가능
+
+[공통]
+ - 파일을 바꿀 때는 숏폼\_sales\site\build_site.py 를 실행해 index.html을 다시 만든 뒤 같은 방법으로 덮어쓰기
+ - 방문·클릭 측정: Google Analytics 4 측정 ID(G-로 시작)를 만들어 알려주시면 GA_ID에 넣습니다(카드 클릭이 select_item 이벤트로 기록됨)
+ - 홈페이지 전용 커넥트 링크가 나오면 connect_links.json 각 상품에 "link_site": "https://naver.me/..." 를 추가하면 자동 적용
