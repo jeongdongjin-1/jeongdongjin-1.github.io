@@ -10,7 +10,7 @@
 <meta property="og:image:height" content="629">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="description" content="광역어그로꾼·이슈어그로꾼 영상에서 소개한 추석 선물 9종 링크 모음">
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-6SKD845QDB"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date());gtag("config","G-6SKD845QDB");</script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-6SKD845QDB"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date());var PICK_SRC="";try{var _q=new URLSearchParams(location.search).get("src");if(_q){PICK_SRC=_q.slice(0,20);sessionStorage.setItem("pick_src",PICK_SRC)}else{PICK_SRC=sessionStorage.getItem("pick_src")||""}}catch(e){}gtag("config","G-6SKD845QDB",PICK_SRC?{src:PICK_SRC,campaign_source:PICK_SRC,campaign_medium:"pick"}:{});</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gothic+A1:wght@800;900&family=Noto+Sans+KR:wght@400;500;700&display=swap">
 <style>
@@ -322,13 +322,14 @@ tabs.addEventListener('click', e => { const t = e.target.closest('.tab'); if (t)
 
 
 // 유입 채널: 주소 끝의 ?src= 값을 기억한다 (yt=광역어그로꾼, yti=이슈어그로꾼, blog=네이버 블로그, clip=네이버 클립)
-var PICK_SRC = '';
+if (typeof PICK_SRC === 'undefined') { var PICK_SRC = ''; }
 try {
-  var q = new URLSearchParams(location.search).get('src');
-  if (q) { PICK_SRC = q.slice(0, 20); sessionStorage.setItem('pick_src', PICK_SRC); }
-  else { PICK_SRC = sessionStorage.getItem('pick_src') || ''; }
+  if (!PICK_SRC) {
+    var q = new URLSearchParams(location.search).get('src');
+    if (q) { PICK_SRC = q.slice(0, 20); sessionStorage.setItem('pick_src', PICK_SRC); }
+    else { PICK_SRC = sessionStorage.getItem('pick_src') || ''; }
+  }
 } catch (e) {}
-if (PICK_SRC && typeof gtag === 'function') gtag('set', { traffic_source: PICK_SRC });
 
 // 클릭 측정: GA_ID가 있을 때만 gtag 이벤트 전송(없으면 아무 것도 안 함)
 document.addEventListener('click', e => {
@@ -338,6 +339,7 @@ document.addEventListener('click', e => {
     item_list_name: a.dataset.track,
     item_id: String(a.dataset.pid),
     item_name: card?.querySelector('.name, .hero-name')?.textContent || '',
+    src: PICK_SRC || '(none)',
     traffic_source: PICK_SRC || '(none)'
   });
 });
