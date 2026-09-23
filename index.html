@@ -176,9 +176,6 @@ button{font:inherit;color:inherit;background:none;border:0;padding:0;cursor:poin
 .finder-box button{flex:none;border:0;border-radius:999px;background:var(--accent);color:var(--accent-ink);font-family:var(--display);font-weight:800;font-size:14px;padding:8px 16px;cursor:pointer}
 .finder-msg{margin:6px 2px 0;font-size:12px;color:var(--ash);line-height:1.5}
 .finder-msg.err{color:var(--accent);font-weight:700}
-.finder-quick{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
-.finder-quick button{border:1px solid var(--line);background:var(--paper);color:var(--ink-2);border-radius:999px;font-family:var(--display);font-weight:800;font-size:12px;padding:5px 11px;cursor:pointer}
-.finder-quick button:hover{border-color:var(--ink);color:var(--ink)}
 
 /* 번호로 찾아갔을 때 강조 */
 @keyframes pickflash{0%{box-shadow:0 0 0 0 var(--accent)}35%{box-shadow:0 0 0 5px var(--accent)}100%{box-shadow:0 0 0 0 rgba(0,0,0,0)}}
@@ -249,7 +246,6 @@ footer .fine{font-size:11px}
       <button id="noGo" type="button">찾기</button>
     </div>
     <p class="finder-msg" id="noMsg" role="status">숫자만 넣으면 그 상품으로 바로 내려갑니다. 카드 왼쪽 위 빨간 번호가 상품 번호예요.</p>
-    <div class="finder-quick" id="noQuick"></div>
   </div>
 </div>
 
@@ -281,14 +277,14 @@ footer .fine{font-size:11px}
   <section class="grid" id="grid" aria-live="polite"></section>
 
   <section class="channels" aria-label="채널">
-    <a class="ch" href="https://blog.naver.com/happyhappysss" target="_blank" rel="noopener"><span><b>네이버 블로그 · 핫이슈잇슈</b><small>이슈 정리와 상품 후기 원문</small></span><span class="arrow">↗</span></a>
+    <a class="ch" href="https://blog.naver.com/happyhappysss?categoryNo=0&amp;from=postList" target="_blank" rel="noopener"><span><b>네이버 블로그 · 핫이슈잇슈</b><small>최신 이슈 정리와 상품 후기 원문</small></span><span class="arrow">↗</span></a>
     <a class="ch" href="https://www.youtube.com/channel/UCZ1gJcp_4J4ptJAvNsbdjSA" target="_blank" rel="noopener"><span><b>유튜브 · 광역어그로꾼</b><small>매일 핫이슈 숏폼 + 21시 롱폼</small></span><span class="arrow">↗</span></a>
     <a class="ch" href="https://www.youtube.com/channel/UCPpPY-M0PyamG9xGsIF7tqg" target="_blank" rel="noopener"><span><b>유튜브 · 이슈어그로꾼</b><small>같은 이슈, 다른 시각의 예약 공개</small></span><span class="arrow">↗</span></a>
   </section>
 
   <footer>
-    <p><b>이용 안내</b> · 상품 가격·구성·재고는 판매처 페이지 기준(표기 시점 2026-09-22)이며 이 페이지는 판매 당사자가 아닙니다. 수수료 고지는 페이지 상단에 안내하고 있습니다.</p>
-    <p class="fine">건강식품은 질병의 예방·치료를 위한 의약품이 아닙니다. 여행 상품은 예약 시점의 판매처 약관을 따릅니다. 문의는 각 채널 댓글로 남겨 주세요. · 상품 사진은 각 상품 소개 영상 화면, 후쿠오카 사진은 Wikimedia Commons "Fukuoka night view 03" (ノボホショコロトソ, CC BY 4.0) · 갱신 2026-09-22</p>
+    <p><b>이용 안내</b> · 상품 가격·구성·재고는 판매처 페이지 기준(표기 시점 2026-09-23)이며 이 페이지는 판매 당사자가 아닙니다. 수수료 고지는 페이지 상단에 안내하고 있습니다.</p>
+    <p class="fine">건강식품은 질병의 예방·치료를 위한 의약품이 아닙니다. 여행 상품은 예약 시점의 판매처 약관을 따릅니다. 문의는 각 채널 댓글로 남겨 주세요. · 상품 사진은 각 상품 소개 영상 화면, 후쿠오카 사진은 Wikimedia Commons "Fukuoka night view 03" (ノボホショコロトソ, CC BY 4.0) · 갱신 2026-09-23</p>
   </footer>
 </main>
 
@@ -420,13 +416,7 @@ function jumpTo(no, opts){
 (function(){
   const input = document.getElementById('noInput');
   const go = document.getElementById('noGo');
-  const quick = document.getElementById('noQuick');
   if (!input) return;
-
-  // 있는 번호를 칩으로 깔아 둔다 — 번호를 모르고 들어온 사람도 누를 수 있게
-  const ids = PRODUCTS.map(p => p.id).sort((a,b)=>a-b);
-  quick.innerHTML = ids.map(i => `<button type="button" data-no="${i}">${i}번</button>`).join('');
-  quick.addEventListener('click', e => { const b = e.target.closest('button'); if (b) { input.value = b.dataset.no; jumpTo(b.dataset.no); } });
 
   go.addEventListener('click', () => jumpTo(input.value));
   input.addEventListener('keydown', e => { if (e.key === 'Enter'){ e.preventDefault(); jumpTo(input.value); } });
